@@ -66,6 +66,9 @@ void MainWindow::CreateActions()
     actionFlip = new QAction(tr("图像反转..."),this);
     connect(actionFlip,SIGNAL(triggered(bool)),this,SLOT(slotFlipImg()));
 
+    actionRotation90 = new QAction(tr("旋转90度"), this);
+    connect(actionRotation90, SIGNAL(triggered(bool)), this, SLOT(slotRotation90()));
+
     //"图像滤波"
     actionFilter2D = new QAction(tr("Filter2D..."),this);
     connect(actionFilter2D,SIGNAL(triggered(bool)),this,SLOT(slotFilter2D()));
@@ -102,6 +105,7 @@ void MainWindow::CreateMenus()
 
     menuTransformImg = ui->menuBar->addMenu(tr("图像变换"));
     menuTransformImg->addAction(actionFlip);
+    menuTransformImg->addAction(actionRotation90);
 
     menuFilterImg = ui->menuBar->addMenu(tr("图像滤波"));
     menuFilterImg->addAction(actionFilter2D);
@@ -423,6 +427,24 @@ void MainWindow::slotFlipImg()
         }
         DisplayImage(imgDst,1);
     }
+}
+
+void MainWindow::slotRotation90(){
+    if(!CheckSrcImage())
+        return;
+
+    float angle = 90.f;
+
+        cv::Point2f center(imgSrc.cols / 2, imgSrc.rows / 2);
+        cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1);
+        cv::Rect bbox = cv::RotatedRect(center, imgSrc.size(), angle).boundingRect();
+
+        rot.at<double>(0, 2) += bbox.width / 2.0 - center.x;
+        rot.at<double>(1, 2) += bbox.height / 2.0 - center.y;
+
+        cv::warpAffine(imgSrc, imgDst, rot, bbox.size());
+
+    DisplayImage(imgDst,1);
 }
 
 void MainWindow::slotFilter2D()

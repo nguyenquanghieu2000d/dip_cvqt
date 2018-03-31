@@ -63,6 +63,7 @@ private slots:
     void slotSaltImage();
 
     void slotFlipImg();//flip image:
+    void slotRotation90();
 
     void slotFilter2D();
 
@@ -109,6 +110,7 @@ private:
 
     QMenu *menuTransformImg;
     QAction *actionFlip;
+    QAction *actionRotation90;
 
     QMenu *menuFilterImg;
     QAction *actionFilter2D;
