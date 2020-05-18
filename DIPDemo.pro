@@ -61,15 +61,21 @@ LIBS += $$OpenCV_LIBS_PREFIX\libopencv_calib3d249.dll.a             \
 
 unix {
 
-OpenCV_RootDir = /opt/opencv_2410_r
+OpenCV_RootDir = /opt/ros/kinetic
 
-INCLUDEPATH += $$OpenCV_RootDir/include
+INCLUDEPATH += $$OpenCV_RootDir/include/opencv-3.3.1-dev/
 
-LIBS += $$OpenCV_RootDir/lib/libopencv_core.so                      \
-    $$OpenCV_RootDir/lib/libopencv_highgui.so                       \
-    $$OpenCV_RootDir/lib/libopencv_imgproc.so                       \
-    $$OpenCV_RootDir/lib/libopencv_ml.so                            \
-    $$OpenCV_RootDir/lib/libopencv_video.so
+OpenCV_LIBS_PREFIX = $$OpenCV_RootDir/lib/x86_64-linux-gnu
+
+LIBS += -L $$OpenCV_LIBS_PREFIX
+
+LIBS += $$OpenCV_LIBS_PREFIX/libopencv_core3.so   \
+    $$OpenCV_LIBS_PREFIX/libopencv_highgui3.so    \
+    $$OpenCV_LIBS_PREFIX/libopencv_imgproc3.so    \
+    $$OpenCV_LIBS_PREFIX/libopencv_imgcodecs3.so  \
+    $$OpenCV_LIBS_PREFIX/libopencv_ml3.so         \
+    $$OpenCV_LIBS_PREFIX/libopencv_video3.so      \
+    $$OpenCV_LIBS_PREFIX/libopencv_videoio3.so
 }
 
 RESOURCES += dipdemo.qrc
